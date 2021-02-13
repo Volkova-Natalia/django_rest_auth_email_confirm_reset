@@ -1,0 +1,4 @@
+include LICENSE
+include README.md
+recursive-include django_rest_auth_email_confirm_reset/static *
+recursive-include django_rest_auth_email_confirm_reset/templates *

@@ -1,0 +1,420 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "django-rest-auth-email-confirm-reset",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": ""
+    }
+  ],
+
+  "tags": [
+    {
+      "name": "registration"
+    },
+    {
+      "name": "login"
+    },
+    {
+      "name": "logout"
+    },
+    {
+      "name": "auth_info"
+    }
+  ],
+
+
+
+
+  "paths": {
+
+    "/registration/": {
+
+      "x-name": "registration",
+
+      "post": {
+        "tags": [
+          "registration"
+        ],
+        "summary": "registration",
+        "operationId": "Registration.post",
+        "description": "registration",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/user_registration_request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "User registered",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/user_registration_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json;charset=utf-8": {
+                "examples": {
+                  "error_detail__username__unique": {
+                    "$ref": "#/components/examples/error_detail__username__unique"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+
+
+    "/login/": {
+
+      "x-name": "login",
+
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "login",
+        "operationId": "Login.post",
+        "description": "login",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/user_login_request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User logged in",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/user_login_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json;charset=utf-8": {
+                "examples": {
+                  "error_detail__non_field_errors__invalid": {
+                    "$ref": "#/components/examples/error_detail__non_field_errors__invalid"
+                  },
+                  "error_detail__username__required": {
+                    "$ref": "#/components/examples/error_detail__username__required"
+                  },
+                  "error_detail__password__required": {
+                    "$ref": "#/components/examples/error_detail__password__required"
+                  },
+                  "error_detail__username_password__required": {
+                    "$ref": "#/components/examples/error_detail__username_password__required"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+    },
+
+
+
+    "/logout/": {
+
+      "x-name": "logout",
+
+      "post": {
+        "tags": [
+          "logout"
+        ],
+        "summary": "logout",
+        "operationId": "Logout.post",
+        "description": "logout",
+        "parameters": [],
+        "requestBody": {
+          "content": {}
+        },
+        "responses": {
+          "200": {
+            "description": "User logged out",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/user_logout_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json;charset=utf-8": {}
+            }
+          }
+        }
+      }
+
+    },
+
+
+
+
+
+    "/auth-info/": {
+
+      "x-name": "auth_info",
+
+      "get": {
+        "tags": [
+          "auth_info"
+        ],
+        "summary": "auth info",
+        "operationId": "Auth_info.post",
+        "description": "auth info",
+        "parameters": [],
+        "requestBody": {
+          "content": {}
+        },
+        "responses": {
+          "200": {
+            "description": "Auth info",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/auth_info_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+  },
+
+
+
+  "components": {
+    "schemas": {
+
+      "user": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "username": {
+            "type": "string",
+            "maxLength": 150,
+            "uniqueItems": true
+          },
+          "first_name": {
+            "type": "string",
+            "maxLength": 30,
+            "nullable": true
+          },
+          "last_name": {
+            "type": "string",
+            "maxLength": 150,
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          },
+          "groups": {
+            "type": "number",
+            "format": "many_to_many"
+          },
+          "user_permissions": {
+            "type": "number",
+            "format": "many_to_many"
+          },
+          "is_staff": {
+            "type": "boolean",
+            "default": false
+          },
+          "is_active": {
+            "type": "boolean",
+            "default": true
+          },
+          "is_superuser": {
+            "type": "boolean",
+            "default": false
+          },
+          "last_login": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "date_joined": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+
+      "user_registration_request": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "$ref": "#/components/schemas/user/properties/username"
+          },
+          "password": {
+            "$ref": "#/components/schemas/user/properties/password"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+
+      "user_registration_response": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "$ref": "#/components/schemas/user/properties/username"
+          },
+          "password": {
+            "$ref": "#/components/schemas/user/properties/password"
+          },
+          "last_login": {
+            "$ref": "#/components/schemas/user/properties/last_login"
+          }
+        },
+        "required": [
+          "username",
+          "password",
+          "last_login"
+        ]
+      },
+
+      "user_login_request": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "$ref": "#/components/schemas/user/properties/username"
+          },
+          "password": {
+            "$ref": "#/components/schemas/user/properties/password"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+
+      "user_login_response": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "$ref": "#/components/schemas/user/properties/username"
+          },
+          "password": {
+            "$ref": "#/components/schemas/user/properties/password"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+
+      "user_logout_response": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "$ref": "#/components/schemas/user/properties/username"
+          },
+          "password": {
+            "$ref": "#/components/schemas/user/properties/password"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+
+
+
+
+
+      "auth_info_response": {
+        "type": "object",
+        "properties": {
+          "is_authenticated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "is_authenticated"
+        ]
+      }
+    },
+
+
+
+    "examples": {
+      "error_detail__non_field_errors__invalid" : {
+        "value": {
+          "non_field_errors": "[ErrorDetail(string='A user with this username and password was not found.', code='invalid')]"
+        }
+      },
+      "error_detail__username__required" : {
+        "value": {
+          "username": "[ErrorDetail(string='This field is required.', code='required')]"
+        }
+      },
+      "error_detail__password__required" : {
+        "value": {
+          "password": "[ErrorDetail(string='This field is required.', code='required')]"
+        }
+      },
+      "error_detail__username_password__required" : {
+        "value": {
+          "username": "[ErrorDetail(string='This field is required.', code='required')]",
+          "password": "[ErrorDetail(string='This field is required.', code='required')]"
+        }
+      },
+      "error_detail__username__unique" : {
+        "value": {
+          "username": "[ErrorDetail(string='A user with that username already exists.', code='unique')]"
+        }
+      }
+    }
+
+
+  }
+
+}
+

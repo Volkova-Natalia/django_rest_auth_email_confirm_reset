@@ -1,0 +1,4 @@
+../../../django_rest_auth_email_confirm_reset
+
+django-cors-headers==3.7.0
+python-dotenv==0.15.0

@@ -7,7 +7,7 @@ from rest_framework.exceptions import ErrorDetail
 # Create your tests here.
 class LoginViewsTestCase(CommonViewsTestCase):
     registered_user = {
-        'username': 'username_000',
+        'email': 'email_000@mail.com',
         'password': 'password_000',
     }
 
@@ -62,27 +62,31 @@ class LoginViewsTestCase(CommonViewsTestCase):
         """
         data_post = self.registered_user.copy()
         for field in field_is_not_correct:
-            data_post[field] = data_post[field] + '_another'
+            if field == 'email':
+                pos_at_sign = data_post[field].find('@')
+                data_post[field] = data_post[field][:pos_at_sign] + '_another' + data_post[field][pos_at_sign:]
+            else:
+                data_post[field] = data_post[field] + '_another'
 
         action = self.base_action_test_case(data_post)
         client, response = action.post(client=None)
         # action.data_expected['post'][success_fail] = {
-        #     'non_field_errors': ['A user with this username and password was not found.']
+        #     'non_field_errors': ['user with this email and password was not found.']
         # }
         action.data_expected['post'][success_fail] = {
-            'non_field_errors': [ErrorDetail(string='A user with this username and password was not found.',
+            'non_field_errors': [ErrorDetail(string='user with this email and password was not found.',
                                              code='invalid')]
         }
         action.base_test_post(response=response, success_fail=success_fail, assert_message='views')
 
-    def test_post_username_is_not_correct_fail(self):
-        self._test_post_field_is_not_correct_fail(field_is_not_correct=['username'])
+    def test_post_email_is_not_correct_fail(self):
+        self._test_post_field_is_not_correct_fail(field_is_not_correct=['email'])
 
     def test_post_password_is_not_correct_fail(self):
         self._test_post_field_is_not_correct_fail(field_is_not_correct=['password'])
 
-    def test_post_username_password_is_not_correct_fail(self):
-        self._test_post_field_is_not_correct_fail(field_is_not_correct=['username', 'password'])
+    def test_post_email_password_is_not_correct_fail(self):
+        self._test_post_field_is_not_correct_fail(field_is_not_correct=['email', 'password'])
 
     # ----- field_required -----
 
@@ -111,17 +115,17 @@ class LoginViewsTestCase(CommonViewsTestCase):
         #     action.data_expected['post'][success_fail][field] = ['This field is required.']
         for field in field_required:
             action.data_expected['post'][success_fail][field] = [ErrorDetail(string='This field is required.',
-                                                                            code='required')]
+                                                                             code='required')]
         action.base_test_post(response=response, success_fail=success_fail, assert_message='views')
 
-    def test_post_username_required_fail(self):
-        self._test_post_field_required_fail(field_required=['username'])
+    def test_post_email_required_fail(self):
+        self._test_post_field_required_fail(field_required=['email'])
 
     def test_post_password_required_fail(self):
         self._test_post_field_required_fail(field_required=['password'])
 
-    def test_post_username_password_required_fail(self):
-        self._test_post_field_required_fail(field_required=['username', 'password'])
+    def test_post_email_password_required_fail(self):
+        self._test_post_field_required_fail(field_required=['email', 'password'])
 
     # ----- data_out_is_none -----
 
@@ -133,11 +137,11 @@ class LoginViewsTestCase(CommonViewsTestCase):
         action = self.base_action_test_case(data_post)
         client, response = action.post(client=None)
         # action.data_expected['post'][success_fail] = {
-        #     'username': ['This field is required.'],
+        #     'email': ['This field is required.'],
         #     'password': ['This field is required.']
         # }
         action.data_expected['post'][success_fail] = {
-            'username': [ErrorDetail(string='This field is required.', code='required')],
+            'email': [ErrorDetail(string='This field is required.', code='required')],
             'password': [ErrorDetail(string='This field is required.', code='required')]
         }
 

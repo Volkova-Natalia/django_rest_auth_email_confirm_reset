@@ -89,14 +89,14 @@ class BaseViewsTestCase(TestCase):
     # ======================================================================
 
     @staticmethod
-    def client_login(client=None, user={'username': '', 'password': ''}):
+    def client_login(client=None, user={'email': '', 'password': ''}):
         if not client:
             client = Client()
-        login = client.login(username=user['username'], password=user['password'])
+        login = client.login(email=user['email'], password=user['password'])
         return client, login
 
     @staticmethod
-    def client_logout(client=None, user={'username': '', 'password': ''}):
+    def client_logout(client=None, user={'email': '', 'password': ''}):
         if not client:
             client = Client()
         logout = client.logout()

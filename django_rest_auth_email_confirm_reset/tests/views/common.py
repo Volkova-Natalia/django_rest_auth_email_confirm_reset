@@ -25,7 +25,7 @@ class CommonViewsTestCase(TestCase,
 
     __required_class_variables = [
         "registered_user",          # example:   registered_user = {
-                                    #                'username': 'username_000',
+                                    #                'email': 'email_000@mail.com',
                                     #                'password': 'password_000',
                                     #            }
         "base_action_test_case",    # example:   BaseAuthInfoViewsTestCase
@@ -42,7 +42,7 @@ class CommonViewsTestCase(TestCase,
     def create_user(*, user=None):
         if user:
             user = User.objects.create_user(
-                username=user['username'],
+                email=user['email'],
                 password=user['password'],
             )
             user.save()

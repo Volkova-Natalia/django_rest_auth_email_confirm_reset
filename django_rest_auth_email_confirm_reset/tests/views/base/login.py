@@ -104,14 +104,14 @@ class BaseLoginViewsTestCase(BaseViewsTestCase):
         super().base_test_post(response=response, success_fail=success_fail, assert_message=assert_message)
 
         if success_fail == 'success':
-            user = authenticate(username=self.user['username'], password=self.user['password'])
+            user = authenticate(email=self.user['email'], password=self.user['password'])
             self.assertNotEquals(user, None, assert_message + ' test user')
             self.assertEquals(user.is_active, True, assert_message + ' test user.is_active')
             # TODO check that the user is online
         elif success_fail == 'fail':
             if self.user:
-                if ('username' in self.user) and ('password' in self.user):
-                    user = authenticate(username=self.user['username'], password=self.user['password'])
+                if ('email' in self.user) and ('password' in self.user):
+                    user = authenticate(email=self.user['email'], password=self.user['password'])
                     self.assertEquals(user, None, assert_message + ' test user')
                     # TODO check that the user is offline
 

@@ -9,7 +9,7 @@ from rest_framework.exceptions import ErrorDetail
 # Create your tests here.
 class RegistrationViewsTestCase(CommonViewsTestCase):
     registered_user = {
-        'username': 'username_000',
+        'email': 'email_000@mail.com',
         'password': 'password_000',
     }
 
@@ -40,12 +40,14 @@ class RegistrationViewsTestCase(CommonViewsTestCase):
         success_fail = 'success'
 
         data_post = self.registered_user.copy()
-        data_post['username'] = data_post['username'] + '_another'
+        pos_at_sign = data_post['email'].find('@')
+        data_post['email'] = data_post['email'][:pos_at_sign] + '_another' + data_post['email'][pos_at_sign:]
         data_post['password'] = data_post['password'] + '_another'
 
         action = self.base_action_test_case(data_post)
         client, response = action.post(client=None)
         action.data_expected['post'][success_fail] = data_post.copy()
+        action.data_expected['post'][success_fail]['name'] = None
         action.data_expected['post'][success_fail]['last_login'] = None
         action.base_test_post(response=response, success_fail=success_fail, assert_message='views')
 
@@ -76,10 +78,10 @@ class RegistrationViewsTestCase(CommonViewsTestCase):
         action = self.base_action_test_case(data_post)
         client, response = action.post(client=None)
         # action.data_expected['post'][success_fail] = {
-        #     'username': ['A user with that username already exists.']
+        #     'email': ['user with this email already exists.']
         # }
         action.data_expected['post'][success_fail] = {
-            'username': [ErrorDetail(string='A user with that username already exists.', code='unique')]
+            'email': [ErrorDetail(string='user with this email already exists.', code='unique')]
         }
         action.base_test_post(response=response, success_fail=success_fail, assert_message='views')
 
@@ -95,11 +97,11 @@ class RegistrationViewsTestCase(CommonViewsTestCase):
         action = self.base_action_test_case(data_post)
         client, response = action.post(client=None)
         # action.data_expected['post'][success_fail] = {
-        #     'username': ['This field is required.'],
+        #     'email': ['This field is required.'],
         #     'password': ['This field is required.']
         # }
         action.data_expected['post'][success_fail] = {
-            'username': [ErrorDetail(string='This field is required.', code='required')],
+            'email': [ErrorDetail(string='This field is required.', code='required')],
             'password': [ErrorDetail(string='This field is required.', code='required')]
         }
         action.base_test_post(response=response, success_fail=success_fail, assert_message='views')

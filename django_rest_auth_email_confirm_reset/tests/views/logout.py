@@ -5,7 +5,7 @@ from .base import BaseLogoutViewsTestCase
 # Create your tests here.
 class LogoutViewsTestCase(CommonViewsTestCase):
     registered_user = {
-        'username': 'username_000',
+        'email': 'email_000@mail.com',
         'password': 'password_000',
     }
 

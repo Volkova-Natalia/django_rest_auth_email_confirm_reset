@@ -6,16 +6,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        # fields = (
-        #     'username',
-        #     'password'
-        # )
         fields = (
             'id',
-            'username',
-            'first_name',
-            'last_name',
             'email',
+            'name',
             'password',
             # 'groups',
             # 'user_permissions',
@@ -27,6 +21,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
         )
 
     def save(self, **kwargs):
-        user = User.objects.create_user(username=self.data['username'],
+        user = User.objects.create_user(email=self.data['email'],
                                         password=self.data['password'])
         user.save()

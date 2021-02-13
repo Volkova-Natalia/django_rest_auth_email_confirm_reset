@@ -14,7 +14,7 @@ class IntegrationTestCase(TestCase):
     AuthInfoTestCase = AuthInfoIntegrationTestCase
 
     test_user = {
-        'username': 'username_test',
+        'email': 'email_test@mail.com',
         'password': 'password_test',
     }
 

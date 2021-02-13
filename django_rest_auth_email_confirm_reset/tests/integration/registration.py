@@ -23,6 +23,7 @@ class RegistrationIntegrationTestCase(BaseRegistrationViewsTestCase):
 
         client, response = self.post(client=client)
         self.data_expected['post'][success_fail] = self.user.copy()
+        self.data_expected['post'][success_fail]['name'] = None
         self.data_expected['post'][success_fail]['last_login'] = None
         self.base_test_post(response=response, success_fail=success_fail, assert_message='integration')
 

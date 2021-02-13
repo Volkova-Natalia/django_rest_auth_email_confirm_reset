@@ -2,31 +2,31 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate, login
 from abc import abstractmethod
 
+from ..models import User
+
 
 class LoginSerializer(serializers.Serializer):
 
-    username = serializers.CharField(max_length=150, required=True)
-    first_name = serializers.CharField(max_length=30, allow_blank=True, required=False)
-    last_name = serializers.CharField(max_length=150, allow_blank=True, required=False)
-    email = serializers.EmailField(allow_blank=True, required=False)
+    email = serializers.EmailField(max_length=254, allow_blank=False, required=True)
+    name = serializers.CharField(max_length=254, allow_blank=True, required=False)
     password = serializers.CharField(max_length=128, required=True)
     # is_staff = serializers.BooleanField(default=False, required=False)
     # is_active = serializers.BooleanField(default=True, required=False)
     # is_superuser = serializers.BooleanField(default=False, required=False)
-    # last_login = serializers.DateTimeField(default=timezone.now, required=False)
-    # date_joined = serializers.DateTimeField(default=timezone.now, required=False)
+    # last_login = serializers.DateTimeField(default=timezone.now, allow_blank=True, allow_null=True, required=False)
+    # date_joined = serializers.DateTimeField(default=timezone.now, auto_now_add=True, required=False)
 
     # ======================================================================
 
     def validate(self, data):
-        username = data.get('username', None)
+        email = data.get('email', None)
         password = data.get('password', None)
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(email=email, password=password)
 
         if user is None:
             raise serializers.ValidationError(
-                'A user with this username and password was not found.'
+                'user with this email and password was not found.'
             )
 
         if not user.is_active:
@@ -39,7 +39,7 @@ class LoginSerializer(serializers.Serializer):
     # ======================================================================
 
     def login(self, *, request):
-        user = authenticate(username=self.validated_data['username'],
+        user = authenticate(email=self.validated_data['email'],
                             password=self.validated_data['password'])
         login(request, user)
 

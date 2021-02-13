@@ -1,4 +1,4 @@
-name: Django CI
+name: Django CI - test_before_packaging
 
 on:
   push:

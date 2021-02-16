@@ -150,3 +150,12 @@ CORS_ALLOWED_ORIGINS = eval(os.getenv('CORS_ALLOWED_ORIGINS', '[]'))
 CORS_ALLOW_CREDENTIALS = bool(strtobool(os.getenv('CORS_ALLOW_CREDENTIALS', 'True')))
 
 CSRF_TRUSTED_ORIGINS = eval(os.getenv('CSRF_TRUSTED_ORIGINS', '[]'))
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

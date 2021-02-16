@@ -24,3 +24,4 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(email=self.data['email'],
                                         password=self.data['password'])
         user.save()
+        return user

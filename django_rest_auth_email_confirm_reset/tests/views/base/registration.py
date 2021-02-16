@@ -7,9 +7,10 @@ from django.urls import reverse
 
 # Create your tests here.
 class BaseRegistrationViewsTestCase(BaseViewsTestCase):
+    end_point_name = 'registration'
     user = None
 
-    url = reverse('registration')
+    url = reverse(end_point_name)
 
     status_code_expected = {
         'get': {
@@ -95,19 +96,19 @@ class BaseRegistrationViewsTestCase(BaseViewsTestCase):
     # ======================================================================
 
     def base_test_get(self, *, response, success_fail, assert_message=''):
-        assert_message = assert_message + ' registration'
+        assert_message = assert_message + ' ' + self.end_point_name
         super().base_test_get(response=response, success_fail=success_fail, assert_message=assert_message)
 
     def base_test_post(self, *, response, success_fail, assert_message=''):
-        assert_message = assert_message + ' registration'
+        assert_message = assert_message + ' ' + self.end_point_name
         super().base_test_post(response=response, success_fail=success_fail, assert_message=assert_message)
 
     def base_test_put(self, *, response, success_fail, assert_message=''):
-        assert_message = assert_message + ' registration'
+        assert_message = assert_message + ' ' + self.end_point_name
         super().base_test_put(response=response, success_fail=success_fail, assert_message=assert_message)
 
     def base_test_delete(self, *, response, success_fail, assert_message=''):
-        assert_message = assert_message + ' registration'
+        assert_message = assert_message + ' ' + self.end_point_name
         super().base_test_delete(response=response, success_fail=success_fail, assert_message=assert_message)
 
     # ======================================================================

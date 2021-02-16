@@ -4,6 +4,7 @@ from .registration import RegistrationIntegrationTestCase
 from .login import LoginIntegrationTestCase
 from .logout import LogoutIntegrationTestCase
 from .auth_info import AuthInfoIntegrationTestCase
+from .confirmation import ConfirmationIntegrationTestCase
 
 
 # Create your tests here.
@@ -12,6 +13,7 @@ class IntegrationTestCase(TestCase):
     LoginTestCase = LoginIntegrationTestCase
     LogoutTestCase = LogoutIntegrationTestCase
     AuthInfoTestCase = AuthInfoIntegrationTestCase
+    ConfirmationTestCase = ConfirmationIntegrationTestCase
 
     test_user = {
         'email': 'email_test@mail.com',
@@ -31,6 +33,8 @@ class IntegrationTestCase(TestCase):
         cls.logout.setUpTestData()
         cls.auth_info = cls.AuthInfoTestCase(user=cls.test_user)
         cls.auth_info.setUpTestData()
+        cls.confirmation = cls.ConfirmationTestCase(user=cls.test_user)
+        cls.confirmation.setUpTestData()
 
     def setUp(self):
         super().setUp()
@@ -38,19 +42,21 @@ class IntegrationTestCase(TestCase):
         self.login.setUp()
         self.logout.setUp()
         self.auth_info.setUp()
+        self.confirmation.setUp()
 
     def tearDown(self):
         self.registration.tearDown()
         self.login.tearDown()
         self.logout.tearDown()
         self.auth_info.tearDown()
+        self.confirmation.tearDown()
         super().tearDown()
 
     # ======================================================================
     # success
     # ======================================================================
 
-    def test_registration_login_logout_success(self):
+    def test_registration_confirmation_login_logout_success(self):
         client = None
 
         client = self.auth_info.execute(client=client, is_authenticated=False)
@@ -58,6 +64,18 @@ class IntegrationTestCase(TestCase):
 
         client = self.registration.execute(client=client)
         self.registration.test()
+
+        client = self.auth_info.execute(client=client, is_authenticated=False)
+        self.auth_info.test()
+
+        client = self.confirmation.execute(client=client)
+        self.confirmation.test()
+
+        client = self.auth_info.execute(client=client, is_authenticated=True)
+        self.auth_info.test()
+
+        client = self.logout.execute(client=client)
+        self.logout.test()
 
         client = self.auth_info.execute(client=client, is_authenticated=False)
         self.auth_info.test()

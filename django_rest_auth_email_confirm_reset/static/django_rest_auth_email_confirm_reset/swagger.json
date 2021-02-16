@@ -22,6 +22,9 @@
     },
     {
       "name": "auth_info"
+    },
+    {
+      "name": "confirmation"
     }
   ],
 
@@ -192,7 +195,7 @@
           "auth_info"
         ],
         "summary": "auth info",
-        "operationId": "Auth_info.post",
+        "operationId": "Auth_info.get",
         "description": "auth info",
         "parameters": [],
         "requestBody": {
@@ -205,6 +208,73 @@
               "application/json;charset=utf-8": {
                 "schema": {
                   "$ref": "#/components/schemas/auth_info_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+
+
+
+
+    "/confirmation/{uidb64}/{token}/": {
+
+      "x-name": "confirmation",
+
+      "get": {
+        "tags": [
+          "confirmation"
+        ],
+        "summary": "confirmation",
+        "operationId": "Confirmation.get",
+        "description": "email confirmation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uidb64",
+            "schema": {
+              "type": "string",
+              "default": "Ab"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "token",
+            "schema": {
+              "type": "string",
+              "default": "ab01cd-e2345678f90gh123456i7j8k9l0mno12"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {}
+        },
+        "responses": {
+          "200": {
+            "description": "Confirmation success",
+            "content": {
+              "application/json;charset=utf-8": {
+                "examples": {
+                  "confirmation_success": {
+                    "$ref": "#/components/examples/confirmation_success"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Confirmation fail",
+            "content": {
+              "application/json;charset=utf-8": {
+                "examples": {
+                  "confirmation_fail": {
+                    "$ref": "#/components/examples/confirmation_fail"
+                  }
                 }
               }
             }
@@ -380,7 +450,13 @@
           "is_authenticated"
         ]
       }
+
     },
+
+
+
+
+
 
 
 
@@ -409,6 +485,19 @@
       "error_detail__email__unique" : {
         "value": {
           "email": "[ErrorDetail(string='user with this email already exists.', code='unique')]"
+        }
+      },
+
+
+
+      "confirmation_success" : {
+        "value": {
+          "message": "Thank you for your email confirmation. Now you can login your account."
+        }
+      },
+      "confirmation_fail" : {
+        "value": {
+          "error": "Confirmation link is invalid!"
         }
       }
     }

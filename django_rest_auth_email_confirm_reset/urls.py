@@ -13,13 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
+from django.urls import path, re_path
 from .settings import end_point
 from .views import (
     RegistrationView,
     LoginView,
     LogoutView,
     AuthInfoView,
+    ConfirmationView,
 
     SwaggerExpectedView,
 )
@@ -29,6 +30,9 @@ urlpatterns = [
     path(end_point['login']['url'], LoginView.as_view(), name=end_point['login']['name']),
     path(end_point['logout']['url'], LogoutView.as_view(), name=end_point['logout']['name']),
     path(end_point['auth_info']['url'], AuthInfoView.as_view(), name=end_point['auth_info']['name']),
+
+    # re_path(r'^confirmation/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z\-]+)/$', ConfirmationView.as_view(), name='confirmation'),
+    re_path(end_point['confirmation']['url'], ConfirmationView.as_view(), name=end_point['confirmation']['name']),
 
     path(end_point['swagger_expected']['url'], SwaggerExpectedView.as_view(), name=end_point['swagger_expected']['name']),
 ]

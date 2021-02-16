@@ -7,9 +7,10 @@ from django.urls import reverse
 
 # Create your tests here.
 class BaseAuthInfoViewsTestCase(BaseViewsTestCase):
+    end_point_name = 'auth_info'
     user = None
 
-    url = reverse('auth_info')
+    url = reverse(end_point_name)
 
     status_code_expected = {
         'get': {
@@ -94,19 +95,19 @@ class BaseAuthInfoViewsTestCase(BaseViewsTestCase):
     # ======================================================================
 
     def base_test_get(self, *, response, success_fail, assert_message=''):
-        assert_message = assert_message + ' auth_info'
+        assert_message = assert_message + ' ' + self.end_point_name
         super().base_test_get(response=response, success_fail=success_fail, assert_message=assert_message)
 
     def base_test_post(self, *, response, success_fail, assert_message=''):
-        assert_message = assert_message + ' auth_info'
+        assert_message = assert_message + ' ' + self.end_point_name
         super().base_test_post(response=response, success_fail=success_fail, assert_message=assert_message)
 
     def base_test_put(self, *, response, success_fail, assert_message=''):
-        assert_message = assert_message + ' auth_info'
+        assert_message = assert_message + ' ' + self.end_point_name
         super().base_test_put(response=response, success_fail=success_fail, assert_message=assert_message)
 
     def base_test_delete(self, *, response, success_fail, assert_message=''):
-        assert_message = assert_message + ' auth_info'
+        assert_message = assert_message + ' ' + self.end_point_name
         super().base_test_delete(response=response, success_fail=success_fail, assert_message=assert_message)
 
     # ======================================================================

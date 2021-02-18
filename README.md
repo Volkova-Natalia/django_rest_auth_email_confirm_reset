@@ -1,6 +1,23 @@
 # django_rest_auth_email_confirm_reset
 Packaged rest application to work with authentication confirmation and password reset with using email.  
  
+The application realizes custom authentication.   
+You can registration and login using **email**.  
+When you registration, you should **confirm** yourself using email.  
+When you forget your **password**, you can **reset** it using email.  
+It is REST application. There are not templates.  
+
+The application uses the following endpoints:  
+***/registration/***  
+***/confirmation/{uidb64}/{token}/*** - to confirm your email  
+***/login/***  
+***/logout/***  
+***/password-reset/*** - to send a password reset link to your email  
+***/password-reset-confirmation/{uidb64}/{token}/*** - to confirm your password reset link and change password  
+***/auth-info/*** - to check, the user is authenticated or not  
+***/swagger/expected/*** - OpenApi specification of the application  
+
+More information about the endpoints see ***/swagger/expected/***  
 
 <br>
 
@@ -44,20 +61,3 @@ Finally, add the models to your database:
 ./manage.py makemigrations django_rest_auth_email_confirm_reset
 ```  
 
-<br>
-
-## More information about the application  
-The application realizes custom authentication.   
-You can registration and login using **email**.  
-When you registration, you should **confirm** yourself using email.  
-When you forget your **password**, you can **reset** it using email.  
-It is REST application. There are not templates.  
-
-The application uses the following endpoints:  
-***/registration/***  
-***/login/***  
-***/logout/***  
-***/auth-info/*** - to check, the user is authenticated or not  
-***/swagger/expected/*** - OpenApi specification of the application  
-
-More information about the endpoints see ***/swagger/expected/***  

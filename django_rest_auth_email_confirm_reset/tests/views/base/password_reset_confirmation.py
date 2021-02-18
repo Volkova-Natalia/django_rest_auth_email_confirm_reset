@@ -8,8 +8,8 @@ from django.core import mail
 
 
 # Create your tests here.
-class BaseConfirmationViewsTestCase(BaseViewsTestCase):
-    end_point_name = 'confirmation'
+class BasePasswordResetConfirmationViewsTestCase(BaseViewsTestCase):
+    end_point_name = 'password_reset_confirmation'
     user = None
 
     uidb64 = 'Ab'
@@ -20,16 +20,16 @@ class BaseConfirmationViewsTestCase(BaseViewsTestCase):
 
     status_code_expected = {
         'get': {
-            'success': status.HTTP_200_OK,
-            'fail': status.HTTP_400_BAD_REQUEST,
+            'success': None,
+            'fail': status.HTTP_405_METHOD_NOT_ALLOWED,
         },
         'post': {
             'success': None,
             'fail': status.HTTP_405_METHOD_NOT_ALLOWED,
         },
         'put': {
-            'success': None,
-            'fail': status.HTTP_405_METHOD_NOT_ALLOWED,
+            'success': status.HTTP_200_OK,
+            'fail': status.HTTP_400_BAD_REQUEST,
         },
         'delete': {
             'success': None,
@@ -39,11 +39,9 @@ class BaseConfirmationViewsTestCase(BaseViewsTestCase):
 
     data_expected = {
         'get': {
-            'success': {
-                'message': 'Thank you for your email confirmation. Now you can login your account.'
-            },
+            'success': None,
             'fail': {
-                'error': 'Confirmation link is invalid!'
+                'detail': ErrorDetail(string='Method "GET" not allowed.', code='method_not_allowed')
             },
         },
         'post': {
@@ -53,10 +51,10 @@ class BaseConfirmationViewsTestCase(BaseViewsTestCase):
             },
         },
         'put': {
-            'success': None,
-            'fail': {
-                'detail': ErrorDetail(string='Method "PUT" not allowed.', code='method_not_allowed')
+            'success': {
+                'message': 'Your password has been successfully reset.'
             },
+            'fail': None,   # is set in test
         },
         'delete': {
             'success': None,
@@ -133,7 +131,10 @@ class BaseConfirmationViewsTestCase(BaseViewsTestCase):
         return client, response
 
     def put(self, *, client=None):
-        client, response = super().put(client=client, url=self.url, data=None)
+        try:
+            client, response = super().put(client=client, url=self.url, data={'password': self.user['password']})
+        except:
+            client, response = super().put(client=client, url=self.url, data=None)
         return client, response
 
     def delete(self, *, client=None):
@@ -157,5 +158,19 @@ class BaseConfirmationViewsTestCase(BaseViewsTestCase):
     def base_test_delete(self, *, response, success_fail, assert_message=''):
         assert_message = assert_message + ' ' + self.end_point_name
         super().base_test_delete(response=response, success_fail=success_fail, assert_message=assert_message)
+
+    # ======================================================================
+
+    def base_test_put_success__password_fail(self, *, success_fail, new_password, client):
+        method = 'put'
+
+        if 'password' in self.user:
+            self.user['password'] = new_password
+
+        confirmation_link = self.get_confirmation_link()
+        confirmation_args = self.get_confirmation_args(confirmation_link=confirmation_link)
+        self.set_url(uidb64=confirmation_args['uidb64'], token=confirmation_args['token'])
+        client, response = self.put(client=client)
+        self.base_test_put(response=response, success_fail=success_fail, assert_message='views')
 
     # ======================================================================

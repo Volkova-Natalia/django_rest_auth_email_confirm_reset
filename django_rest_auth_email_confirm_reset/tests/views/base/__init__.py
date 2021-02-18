@@ -5,3 +5,5 @@ from .login import BaseLoginViewsTestCase
 from .logout import BaseLogoutViewsTestCase
 from .auth_info import BaseAuthInfoViewsTestCase
 from .confirmation import BaseConfirmationViewsTestCase
+from .password_reset import BasePasswordResetViewsTestCase
+from .password_reset_confirmation import BasePasswordResetConfirmationViewsTestCase

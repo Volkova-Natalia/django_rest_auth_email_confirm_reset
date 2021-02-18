@@ -18,6 +18,7 @@ end_point = {
                  'login',
                  'logout',
                  'auth_info',
+                 'password_reset',
                  )
     for path in swagger_paths
     if name == swagger_paths[path]['x-name']
@@ -74,6 +75,15 @@ def change_parameters(*, url):
 
 
 name = 'confirmation'
+end_point[name] = {}
+for path in swagger_paths:
+    if name == swagger_paths[path]['x-name']:
+        url = r'^' + change_parameters(url=path[1:]) + r'$'
+        end_point[name]['url'] = url
+        end_point[name]['name'] = name
+
+
+name = 'password_reset_confirmation'
 end_point[name] = {}
 for path in swagger_paths:
     if name == swagger_paths[path]['x-name']:

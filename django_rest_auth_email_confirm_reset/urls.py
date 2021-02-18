@@ -21,6 +21,8 @@ from .views import (
     LogoutView,
     AuthInfoView,
     ConfirmationView,
+    PasswordResetView,
+    PasswordResetConfirmationView,
 
     SwaggerExpectedView,
 )
@@ -33,6 +35,8 @@ urlpatterns = [
 
     # re_path(r'^confirmation/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z\-]+)/$', ConfirmationView.as_view(), name='confirmation'),
     re_path(end_point['confirmation']['url'], ConfirmationView.as_view(), name=end_point['confirmation']['name']),
+    re_path(end_point['password_reset']['url'], PasswordResetView.as_view(), name=end_point['password_reset']['name']),
+    re_path(end_point['password_reset_confirmation']['url'], PasswordResetConfirmationView.as_view(), name=end_point['password_reset_confirmation']['name']),
 
     path(end_point['swagger_expected']['url'], SwaggerExpectedView.as_view(), name=end_point['swagger_expected']['name']),
 ]

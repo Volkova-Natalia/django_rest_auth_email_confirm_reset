@@ -25,6 +25,12 @@
     },
     {
       "name": "confirmation"
+    },
+    {
+      "name": "password_reset"
+    },
+    {
+      "name": "password_reset_confirmation"
     }
   ],
 
@@ -232,24 +238,8 @@
         "operationId": "Confirmation.get",
         "description": "email confirmation",
         "parameters": [
-          {
-            "in": "path",
-            "name": "uidb64",
-            "schema": {
-              "type": "string",
-              "default": "Ab"
-            },
-            "required": true
-          },
-          {
-            "in": "path",
-            "name": "token",
-            "schema": {
-              "type": "string",
-              "default": "ab01cd-e2345678f90gh123456i7j8k9l0mno12"
-            },
-            "required": true
-          }
+          {"$ref": "#/components/parameters/uidb64"},
+          {"$ref": "#/components/parameters/token"}
         ],
         "requestBody": {
           "content": {}
@@ -281,7 +271,141 @@
           }
         }
       }
+    },
+
+
+
+
+
+
+
+    "/password-reset/": {
+
+      "x-name": "password_reset",
+
+      "post": {
+        "tags": [
+          "password_reset"
+        ],
+        "summary": "password_reset",
+        "operationId": "PasswordReset.post",
+        "description": "get a link to password reset",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/password_reset_get_reset_link_request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset link sent successfully",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/password_reset_sent_reset_link_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json;charset=utf-8": {
+                "examples": {
+                  "error_detail__email__required": {
+                    "$ref": "#/components/examples/error_detail__email__required"
+                  },
+                  "error_detail__email__invalid": {
+                    "$ref": "#/components/examples/error_detail__email__invalid"
+                  },
+                  "error_detail__email__null": {
+                    "$ref": "#/components/examples/error_detail__email__null"
+                  },
+                  "error_detail__email__blank": {
+                    "$ref": "#/components/examples/error_detail__email__blank"
+                  },
+                  "error_detail__email__user_is_not_exists": {
+                    "$ref": "#/components/examples/error_detail__email__user_is_not_exists"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+
+
+    "/password-reset-confirmation/{uidb64}/{token}/": {
+
+      "x-name": "password_reset_confirmation",
+
+      "put": {
+        "tags": [
+          "password_reset_confirmation"
+        ],
+        "summary": "password_reset_confirmation",
+        "operationId": "PasswordResetConfirmation.put",
+        "description": "confirmation of a password reset link and reset password",
+        "parameters": [
+          {"$ref": "#/components/parameters/uidb64"},
+          {"$ref": "#/components/parameters/token"}
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/password_reset_request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset was successful",
+            "content": {
+              "application/json;charset=utf-8": {
+                "examples": {
+                  "confirmation_success": {
+                    "$ref": "#/components/examples/password_reset_success"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Password reset forbidden",
+            "content": {
+              "application/json;charset=utf-8": {
+                "examples": {
+                  "confirmation_fail": {
+                    "$ref": "#/components/examples/password_reset_confirmation_fail"
+                  },
+                  "error_detail__password__required": {
+                    "$ref": "#/components/examples/error_detail__password__required"
+                  },
+                  "error_detail__password__null": {
+                    "$ref": "#/components/examples/error_detail__password__null"
+                  },
+                  "error_detail__password__blank": {
+                    "$ref": "#/components/examples/error_detail__password__blank"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
+
+
 
   },
 
@@ -449,8 +573,76 @@
         "required": [
           "is_authenticated"
         ]
+      },
+
+
+
+      "password_reset_get_reset_link_request": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "$ref": "#/components/schemas/user/properties/email"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+
+      "password_reset_sent_reset_link_response": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "$ref": "#/components/schemas/user/properties/email"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+
+
+
+
+      "password_reset_request": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "$ref": "#/components/schemas/user/properties/password"
+          }
+        },
+        "required": [
+          "password"
+        ]
       }
 
+
+    },
+
+
+
+
+
+
+    "parameters": {
+      "uidb64": {
+        "in": "path",
+        "name": "uidb64",
+        "schema": {
+          "type": "string",
+          "default": "Ab"
+        },
+        "required": true
+      },
+      "token": {
+        "in": "path",
+        "name": "token",
+        "schema": {
+          "type": "string",
+          "default": "ab01cd-e2345678f90gh123456i7j8k9l0mno12"
+        },
+        "required": true
+      }
     },
 
 
@@ -461,47 +653,91 @@
 
 
     "examples": {
-      "error_detail__non_field_errors__invalid" : {
+      "error_detail__non_field_errors__invalid": {
         "value": {
           "non_field_errors": "[ErrorDetail(string='user with this email and password was not found.', code='invalid')]"
         }
       },
-      "error_detail__email__required" : {
+      "error_detail__email__required": {
         "value": {
           "email": "[ErrorDetail(string='This field is required.', code='required')]"
         }
       },
-      "error_detail__password__required" : {
+      "error_detail__password__required": {
         "value": {
           "password": "[ErrorDetail(string='This field is required.', code='required')]"
         }
       },
-      "error_detail__email_password__required" : {
+      "error_detail__email_password__required": {
         "value": {
           "email": "[ErrorDetail(string='This field is required.', code='required')]",
           "password": "[ErrorDetail(string='This field is required.', code='required')]"
         }
       },
-      "error_detail__email__unique" : {
+      "error_detail__email__unique": {
         "value": {
           "email": "[ErrorDetail(string='user with this email already exists.', code='unique')]"
         }
       },
+      "error_detail__email__invalid": {
+        "value": {
+          "email": "[ErrorDetail(string='Enter a valid email address.', code='invalid')]"
+        }
+      },
+      "error_detail__email__null": {
+        "value": {
+          "email": "[ErrorDetail(string='This field may not be null.', code='null')]"
+        }
+      },
+      "error_detail__password__null": {
+        "value": {
+          "password": "[ErrorDetail(string='This field may not be null.', code='null')]"
+        }
+      },
+      "error_detail__email__blank": {
+        "value": {
+          "email": "[ErrorDetail(string='This field may not be blank.', code='blank')]"
+        }
+      },
+      "error_detail__password__blank": {
+        "value": {
+          "password": "[ErrorDetail(string='This field may not be blank.', code='blank')]"
+        }
+      },
+      "error_detail__email__user_is_not_exists": {
+        "value": {
+          "email": "[ErrorDetail(string='user with this email was not found.', code='invalid')]"
+        }
+      },
 
 
 
-      "confirmation_success" : {
+      "confirmation_success": {
         "value": {
           "message": "Thank you for your email confirmation. Now you can login your account."
         }
       },
-      "confirmation_fail" : {
+      "confirmation_fail": {
         "value": {
           "error": "Confirmation link is invalid!"
         }
-      }
-    }
+      },
 
+
+
+      "password_reset_success": {
+        "value": {
+          "message": "Your password has been successfully reset."
+        }
+      },
+      "password_reset_confirmation_fail": {
+        "value": {
+          "error": "Password reset confirmation link is invalid!"
+        }
+      }
+
+
+    }
 
   }
 

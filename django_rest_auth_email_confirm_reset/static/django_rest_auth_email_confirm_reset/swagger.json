@@ -230,12 +230,12 @@
 
       "x-name": "confirmation",
 
-      "get": {
+      "post": {
         "tags": [
           "confirmation"
         ],
         "summary": "confirmation",
-        "operationId": "Confirmation.get",
+        "operationId": "Confirmation.post",
         "description": "email confirmation",
         "parameters": [
           {"$ref": "#/components/parameters/uidb64"},

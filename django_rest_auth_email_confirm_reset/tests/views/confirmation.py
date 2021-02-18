@@ -43,10 +43,10 @@ class ConfirmationViewsTestCase(CommonViewsTestCase):
     # success
     # ======================================================================
 
-    # ----- GET -----
+    # ----- POST -----
 
-    def test_get_success(self):
-        method = 'get'
+    def test_post_success(self):
+        method = 'post'
         success_fail = 'success'
 
         client, another_user = self.register_another_user()
@@ -56,17 +56,17 @@ class ConfirmationViewsTestCase(CommonViewsTestCase):
         confirmation_args = action.get_confirmation_args(confirmation_link=confirmation_link)
         action.set_url(uidb64=confirmation_args['uidb64'], token=confirmation_args['token'])
 
-        client, response = action.get(client=client)
-        action.base_test_get(response=response, success_fail=success_fail, assert_message='views')
+        client, response = action.post(client=client)
+        action.base_test_post(response=response, success_fail=success_fail, assert_message='views')
 
     # ======================================================================
     # fail
     # ======================================================================
 
-    # ----- GET -----
+    # ----- POST -----
 
-    def test_get_link_is_invalid_fail(self):
-        method = 'get'
+    def test_post_link_is_invalid_fail(self):
+        method = 'post'
         success_fail = 'fail'
 
         client, another_user = self.register_another_user()
@@ -83,14 +83,14 @@ class ConfirmationViewsTestCase(CommonViewsTestCase):
         incorrect_confirmation_args['token'] = (confirmation_args['token'][:-1] + incorrect_token_last_symbol)
         action.set_url(uidb64=confirmation_args['uidb64'], token=incorrect_confirmation_args['token'])
 
-        client, response = action.get(client=client)
-        action.base_test_get(response=response, success_fail=success_fail, assert_message='views')
+        client, response = action.post(client=client)
+        action.base_test_post(response=response, success_fail=success_fail, assert_message='views')
 
-    def test_get_one_time_link_fail(self):
+    def test_post_one_time_link_fail(self):
         """
         You cant not use the link twice.
         """
-        method = 'get'
+        method = 'post'
         success_fail = 'fail'
 
         client, another_user = self.register_another_user()
@@ -100,17 +100,17 @@ class ConfirmationViewsTestCase(CommonViewsTestCase):
         confirmation_args = action.get_confirmation_args(confirmation_link=confirmation_link)
         action.set_url(uidb64=confirmation_args['uidb64'], token=confirmation_args['token'])
 
-        client, response = action.get(client=client)
+        client, response = action.post(client=client)
         success_fail = 'success'
-        action.base_test_get(response=response, success_fail=success_fail, assert_message='views')
-        client, response = action.get(client=client)
+        action.base_test_post(response=response, success_fail=success_fail, assert_message='views')
+        client, response = action.post(client=client)
         success_fail = 'fail'
-        action.base_test_get(response=response, success_fail=success_fail, assert_message='views')
+        action.base_test_post(response=response, success_fail=success_fail, assert_message='views')
 
-    # ----- POST -----
+    # ----- GET -----
 
-    def test_post_fail(self):
-        method = 'post'
+    def test_get_fail(self):
+        method = 'get'
         self.base_test_405_fail(method=method)
 
     # ----- PUT -----

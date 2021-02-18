@@ -20,12 +20,12 @@ class BaseConfirmationViewsTestCase(BaseViewsTestCase):
 
     status_code_expected = {
         'get': {
-            'success': status.HTTP_200_OK,
-            'fail': status.HTTP_400_BAD_REQUEST,
-        },
-        'post': {
             'success': None,
             'fail': status.HTTP_405_METHOD_NOT_ALLOWED,
+        },
+        'post': {
+            'success': status.HTTP_200_OK,
+            'fail': status.HTTP_400_BAD_REQUEST,
         },
         'put': {
             'success': None,
@@ -39,17 +39,17 @@ class BaseConfirmationViewsTestCase(BaseViewsTestCase):
 
     data_expected = {
         'get': {
+            'success': None,
+            'fail': {
+                'detail': ErrorDetail(string='Method "GET" not allowed.', code='method_not_allowed')
+            },
+        },
+        'post': {
             'success': {
                 'message': 'Thank you for your email confirmation. Now you can login your account.'
             },
             'fail': {
                 'error': 'Confirmation link is invalid!'
-            },
-        },
-        'post': {
-            'success': None,
-            'fail': {
-                'detail': ErrorDetail(string='Method "POST" not allowed.', code='method_not_allowed')
             },
         },
         'put': {

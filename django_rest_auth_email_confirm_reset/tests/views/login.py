@@ -7,7 +7,7 @@ from rest_framework.exceptions import ErrorDetail
 # Create your tests here.
 class LoginViewsTestCase(CommonViewsTestCase):
     registered_user = {
-        'email': 'email_000@mail.com',
+        'email': 'email_000@test-mail.com',
         'password': 'password_000',
     }
 

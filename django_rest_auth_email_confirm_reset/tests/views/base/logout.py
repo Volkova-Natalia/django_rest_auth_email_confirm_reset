@@ -1,5 +1,7 @@
 from . import BaseViewsTestCase
 
+from ....utils import get_namespace
+
 from rest_framework import status
 from rest_framework.exceptions import ErrorDetail
 from django.urls import reverse
@@ -10,7 +12,8 @@ class BaseLogoutViewsTestCase(BaseViewsTestCase):
     end_point_name = 'logout'
     user = None
 
-    url = reverse(end_point_name)
+    namespace = get_namespace()
+    url = reverse(namespace + end_point_name)
 
     status_code_expected = {
         'get': {

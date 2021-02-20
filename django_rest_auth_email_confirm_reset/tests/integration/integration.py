@@ -20,7 +20,7 @@ class IntegrationTestCase(TestCase):
     PasswordResetConfirmationTestCase = PasswordResetConfirmationIntegrationTestCase
 
     test_user = {
-        'email': 'email_test@mail.com',
+        'email': 'email_test@test-mail.com',
         'password': 'password_test',
     }
 

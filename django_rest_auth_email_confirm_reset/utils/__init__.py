@@ -13,3 +13,4 @@ from .abstract_class_variables import ClassWithAbstractVariables
 
 from .get_namespace import get_namespace
 from .get_base_url import get_base_url
+from .get_base_app_name import get_base_app_name

@@ -25,7 +25,7 @@ class CommonViewsTestCase(TestCase,
 
     __required_class_variables = [
         "registered_user",          # example:   registered_user = {
-                                    #                'email': 'email_000@mail.com',
+                                    #                'email': 'email_000@test-mail.com',
                                     #                'password': 'password_000',
                                     #            }
         "base_action_test_case",    # example:   BaseAuthInfoViewsTestCase

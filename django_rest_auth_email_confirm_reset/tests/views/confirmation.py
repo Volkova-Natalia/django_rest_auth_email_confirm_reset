@@ -6,7 +6,7 @@ from .base import BaseRegistrationViewsTestCase
 # Create your tests here.
 class ConfirmationViewsTestCase(CommonViewsTestCase):
     registered_user = {
-        'email': 'email_000@mail.com',
+        'email': 'email_000@test-mail.com',
         'password': 'password_000',
     }
 

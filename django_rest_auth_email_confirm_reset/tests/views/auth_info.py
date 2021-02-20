@@ -5,7 +5,7 @@ from .base import BaseAuthInfoViewsTestCase
 # Create your tests here.
 class AuthInfoViewsTestCase(CommonViewsTestCase):
     registered_user = {
-        'email': 'email_000@mail.com',
+        'email': 'email_000@test-mail.com',
         'password': 'password_000',
     }
 

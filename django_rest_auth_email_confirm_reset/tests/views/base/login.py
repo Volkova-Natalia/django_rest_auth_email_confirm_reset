@@ -1,5 +1,7 @@
 from . import BaseViewsTestCase
 
+from ....utils import get_namespace
+
 from rest_framework import status
 from rest_framework.exceptions import ErrorDetail
 from django.contrib.auth import authenticate
@@ -11,7 +13,8 @@ class BaseLoginViewsTestCase(BaseViewsTestCase):
     end_point_name = 'login'
     user = None
 
-    url = reverse(end_point_name)
+    namespace = get_namespace()
+    url = reverse(namespace + end_point_name)
 
     status_code_expected = {
         'get': {

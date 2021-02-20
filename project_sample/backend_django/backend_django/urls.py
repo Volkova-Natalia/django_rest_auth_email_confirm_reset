@@ -22,5 +22,5 @@ urlpatterns = [
 ]
 
 if WORK_STAGE != "test_before_packaging":
-    # urlpatterns.append(path('auth/', include(('django_rest_auth_email_confirm_reset.urls', 'django_rest_auth_email_confirm_reset'), namespace='auth')))
-    urlpatterns.append(path('auth/', include('django_rest_auth_email_confirm_reset.urls')))
+    urlpatterns.append(path('auth/', include(('django_rest_auth_email_confirm_reset.urls', 'django_rest_auth_email_confirm_reset'), namespace='auth')))
+    # urlpatterns.append(path('auth/', include('django_rest_auth_email_confirm_reset.urls')))

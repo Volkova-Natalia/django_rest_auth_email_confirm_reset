@@ -36,7 +36,7 @@ class BaseUrlsTestCase(TestCase,
         namespace = get_namespace()
 
         self.url_expected = self.base_url_expected + self.path
-        self.view_expected = self.end_point_name
+        self.view_expected = namespace + self.end_point_name
         self.func_expected = \
             app_name + '.' + 'views.' + self.view_unit_name + '.' + self.class_name
 

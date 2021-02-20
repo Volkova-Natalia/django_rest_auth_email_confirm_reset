@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.test.client import Client
 
 from ....utils import validate_argument
+from ....utils import get_namespace
 
 
 # Create your tests here.
@@ -10,6 +11,7 @@ class BaseViewsTestCase(TestCase):
 
     user = None
 
+    namespace = get_namespace()
     url = None
 
     status_code_expected = {

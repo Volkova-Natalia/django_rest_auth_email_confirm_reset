@@ -1,5 +1,7 @@
 from . import BaseViewsTestCase
 
+from ....utils import get_namespace
+
 from rest_framework import status
 from rest_framework.exceptions import ErrorDetail
 from django.urls import reverse
@@ -16,7 +18,8 @@ class BasePasswordResetConfirmationViewsTestCase(BaseViewsTestCase):
     token = 'ab01cd-e2345678f90gh123456i7j8k9l0mno12'
     url_args = [uidb64, token]
 
-    url = reverse(end_point_name, args=url_args)
+    namespace = get_namespace()
+    url = reverse(namespace + end_point_name, args=url_args)
 
     status_code_expected = {
         'get': {
@@ -89,7 +92,7 @@ class BasePasswordResetConfirmationViewsTestCase(BaseViewsTestCase):
         self.token = token
         self.url_args = [self.uidb64, self.token]
 
-        self.url = reverse(self.end_point_name, args=self.url_args)
+        self.url = reverse(self.namespace + self.end_point_name, args=self.url_args)
         return self.url
 
     def get_confirmation_link(self):

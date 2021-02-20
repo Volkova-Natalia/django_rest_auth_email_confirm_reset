@@ -1,5 +1,5 @@
 {% autoescape off %}
 Hi!
 Please click on the link to confirm your registration,
-{{ scheme }}://{{ domain }}{% url 'confirmation' uidb64=uid token=token %}
+{{ scheme }}://{{ domain }}{% url base_url uidb64=uid token=token %}
 {% endautoescape %}

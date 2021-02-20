@@ -7,6 +7,9 @@ from django.conf import settings
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "django_rest_auth_email_confirm_reset"))
 
+FRONTEND_SCHEME = 'http'
+FRONTEND_HOST = 'localhost:3000'
+
 
 def boot_django():
     if not settings.configured:
@@ -25,11 +28,13 @@ def boot_django():
                 'django.contrib.messages',
                 'django.contrib.staticfiles',
                 'rest_framework',
+                'corsheaders',
                 'django_rest_auth_email_confirm_reset',
             ],
             MIDDLEWARE=[
                 'django.middleware.security.SecurityMiddleware',
                 'django.contrib.sessions.middleware.SessionMiddleware',
+                'corsheaders.middleware.CorsMiddleware',
                 'django.middleware.common.CommonMiddleware',
                 'django.middleware.csrf.CsrfViewMiddleware',
                 'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -97,5 +102,13 @@ def boot_django():
             EMAIL_PORT=587,
 
             EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend',
+
+            FRONTEND_SCHEME=FRONTEND_SCHEME,
+            FRONTEND_HOST=FRONTEND_HOST,
+
+            CORS_ALLOW_ALL_ORIGINS=False,
+            CORS_ALLOWED_ORIGINS=[FRONTEND_SCHEME + r'://' + FRONTEND_HOST],
+            CORS_ALLOW_CREDENTIALS=True,
+            CSRF_TRUSTED_ORIGINS=[FRONTEND_HOST],
         )
         django.setup()

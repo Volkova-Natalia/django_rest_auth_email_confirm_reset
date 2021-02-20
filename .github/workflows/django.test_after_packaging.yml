@@ -33,4 +33,6 @@ jobs:
       env:
           APPLICATION_ENVIRONMENT: "testing"
           WORK_STAGE: "test_after_packaging"
+          FRONTEND_SCHEME: "http"
+          FRONTEND_HOST: "localhost:3000"
           SECRET_KEY: ${{ secrets.SECRET_KEY }}

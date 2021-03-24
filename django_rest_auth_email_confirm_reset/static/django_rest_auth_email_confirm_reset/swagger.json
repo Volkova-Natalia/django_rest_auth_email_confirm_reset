@@ -116,11 +116,7 @@
           "200": {
             "description": "User logged in",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/user_login_response"
-                }
-              }
+              "application/json;charset=utf-8": {}
             }
           },
           "400": {
@@ -170,11 +166,7 @@
           "200": {
             "description": "User logged out",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/user_logout_response"
-                }
-              }
+              "application/json;charset=utf-8": {}
             }
           },
           "401": {
@@ -486,24 +478,12 @@
       "user_registration_response": {
         "type": "object",
         "properties": {
-          "email": {
-            "$ref": "#/components/schemas/user/properties/email"
-          },
-          "name": {
-            "$ref": "#/components/schemas/user/properties/name"
-          },
-          "password": {
-            "$ref": "#/components/schemas/user/properties/password"
-          },
-          "last_login": {
-            "$ref": "#/components/schemas/user/properties/last_login"
+          "id": {
+            "$ref": "#/components/schemas/user/properties/id"
           }
         },
         "required": [
-          "email",
-          "name",
-          "password",
-          "last_login"
+          "id"
         ]
       },
 
@@ -516,38 +496,6 @@
             "maxLength": 254,
             "nullable": false,
             "uniqueItems": false
-          },
-          "password": {
-            "$ref": "#/components/schemas/user/properties/password"
-          }
-        },
-        "required": [
-          "email",
-          "password"
-        ]
-      },
-
-      "user_login_response": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "$ref": "#/components/schemas/user/properties/email"
-          },
-          "password": {
-            "$ref": "#/components/schemas/user/properties/password"
-          }
-        },
-        "required": [
-          "email",
-          "password"
-        ]
-      },
-
-      "user_logout_response": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "$ref": "#/components/schemas/user/properties/email"
           },
           "password": {
             "$ref": "#/components/schemas/user/properties/password"

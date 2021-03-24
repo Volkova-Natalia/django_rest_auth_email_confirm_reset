@@ -41,7 +41,6 @@ class LoginViewsTestCase(CommonViewsTestCase):
 
         action = self.base_action_test_case(data_post)
         client, response = action.post(client=None)
-        action.data_expected['post'][success_fail] = data_post.copy()
         action.base_test_post(response=response, success_fail=success_fail, assert_message='views')
 
     # ======================================================================

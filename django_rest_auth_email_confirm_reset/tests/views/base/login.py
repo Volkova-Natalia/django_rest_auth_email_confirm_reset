@@ -43,7 +43,7 @@ class BaseLoginViewsTestCase(BaseViewsTestCase):
             },
         },
         'post': {
-            'success': None,    # is set in test
+            'success': None,
             'fail': None,   # is set in test
         },
         'put': {

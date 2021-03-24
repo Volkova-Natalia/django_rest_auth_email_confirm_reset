@@ -39,6 +39,10 @@ class RegistrationViewsTestCase(CommonViewsTestCase):
     def test_post_success(self):
         success_fail = 'success'
 
+        data_expected = {
+            'id': 2
+        }
+
         data_post = self.registered_user.copy()
         pos_at_sign = data_post['email'].find('@')
         data_post['email'] = data_post['email'][:pos_at_sign] + '_another' + data_post['email'][pos_at_sign:]
@@ -46,9 +50,7 @@ class RegistrationViewsTestCase(CommonViewsTestCase):
 
         action = self.base_action_test_case(data_post)
         client, response = action.post(client=None)
-        action.data_expected['post'][success_fail] = data_post.copy()
-        action.data_expected['post'][success_fail]['name'] = None
-        action.data_expected['post'][success_fail]['last_login'] = None
+        action.data_expected['post'][success_fail] = data_expected
         action.base_test_post(response=response, success_fail=success_fail, assert_message='views')
 
         count_users_expected = 2

@@ -16,5 +16,9 @@ class RegistrationView(BaseView):
             user.is_active = False
             user.save()
             send_user_email_confirmation(request=request, user=user)
-            return self.response_201(data=serializer.data)
+            return self.response_201(
+                data={
+                    'id': user.id,
+                }
+            )
         return self.response_400(data=serializer.errors)

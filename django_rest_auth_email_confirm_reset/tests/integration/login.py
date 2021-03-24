@@ -22,7 +22,6 @@ class LoginIntegrationTestCase(BaseLoginViewsTestCase):
         success_fail = 'success'
 
         client, response = self.post(client=client)
-        self.data_expected['post'][success_fail] = self.user.copy()
         self.base_test_post(response=response, success_fail=success_fail, assert_message='integration')
 
         return client
